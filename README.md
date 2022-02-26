@@ -1,8 +1,11 @@
 # Video Learning With NeoCortexApi:
 Module: Project 12  
 Instructor: Damir Dobric, Proffessor Andreas Pech.  
-Student:  
-Toan Thanh Truong, Mtr. 1185050 Major: IT Gbr. 23.02.1997  
+Student: 
+Mashnunul Huq, Mtr.         Major:IT
+Nusrat Jahan Sumi, Mtr.1345476 Major:IT 
+Toan Thanh Truong, Mtr. 1185050 Major: IT Gbr. 23.02.1997
+  
 _this readme serves as the submitted projectreport for the registered project Video Learning with HTM_
 ## 1. Motivation:
 This work "Video Learning with HTM CLA" introduces videos data into the Cortical Learning Algorithm in [NeoCortex Api](https://github.com/ddobric/neocortexapi).  
