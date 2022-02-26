@@ -75,8 +75,8 @@ namespace HTMVideoLearning
                 vs.ExtractFrames(convertedVideoDir);
             }
             //Initiating HTM
-            htmCfg.NumColumns = 18 * 18;
-            htmCfg.NumColumns = 1024;
+            htmCfg.NumColumns = 18 * 18; //Should not be hard coded
+            htmCfg.NumColumns = 1024; //There must be a desired value for each video type
             var mem = new Connections(htmCfg);
 
             HtmClassifier<string, ComputeCycle> cls = new();
@@ -434,7 +434,7 @@ namespace HTMVideoLearning
         }
         #endregion
 
-        #region Predict test for Run1
+        #region Predict test for Tranined Data
         /// <summary>
         /// Predict series from input Image.
         /// <br>Process:</br>
@@ -456,10 +456,9 @@ namespace HTMVideoLearning
         /// <returns></returns>
         private static int PredictImageInput(List<VideoSet> videoData, HtmClassifier<string, ComputeCycle> cls, CortexLayer<object, object> layer1, string userInput, string testOutputFolder, int testNo)
         {
+            //Question Arise if it is used in program.cs then a normal user can not say which layer it belongs to and currently it's hard coded
             // TODO: refactor video library for easier access to these properties
-            int frameWidth = videoData[0].nVideoList[0].frameWidth;
-            int frameHeight = videoData[0].nVideoList[0].frameHeight;
-            ColorMode colorMode = videoData[0].nVideoList[0].colorMode;
+            (int frameWidth, int frameHeight, ColorMode colorMode) = videoData[0].VideoSetConfig();
 
             string Outputdir = $"{testOutputFolder}" + @"\" + $"Predicted from {Path.GetFileNameWithoutExtension(userInput)}";
             if (!Directory.Exists(Outputdir))
@@ -545,7 +544,7 @@ namespace HTMVideoLearning
         public static void Run2(VideoConfig videoConfig = null, HtmConfig htmCfg = null)
         {
             RenderHelloScreen();
-
+        
             //initiate time capture
             Stopwatch sw = new();
             List<TimeSpan> RecordedTime = new();

@@ -33,6 +33,10 @@ namespace VideoLibrary
             // Read videos from the video folder path 
             nVideoList = ReadVideos(videoSetPath, colorMode, frameWidth, frameHeight, frameRate);
         }
+        public (int, int, ColorMode) VideoSetConfig()
+        {
+            return (nVideoList[0].frameWidth, nVideoList[0].frameHeight, nVideoList[0].colorMode);
+        }
         /// <summary>
         /// Read all videos within a provided folder's full path, the foleder name will be used as videoset's Label
         /// </summary>
