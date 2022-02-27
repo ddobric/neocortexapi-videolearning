@@ -45,14 +45,15 @@ namespace HTMVideoLearning
 
             RenderHelloScreen();
 
-            string trainingFolderPath = videoConfig?.TrainingDatasetRoot ?? null;
+            //string trainingFolderPath = videoConfig?.TrainingDatasetRoot ?? null;
+            string trainingFolderPath = CheckIfPathExists(videoConfig);
 
-            if (String.IsNullOrEmpty(trainingFolderPath))
-                trainingFolderPath = Console.ReadLine();
+            /*if (String.IsNullOrEmpty(trainingFolderPath))
+                trainingFolderPath = Console.ReadLine();*/
 
             sw.Start();
 
-            string outputFolder = nameof(VideoLearning.Run1);
+            string outputFolder = nameof(VideoLearning.Run1) + "_" + GetCurrentTime();
             string convertedVideoDir, testOutputFolder;
 
             CreateTemporaryFolders(outputFolder, out convertedVideoDir, out testOutputFolder);
@@ -60,23 +61,23 @@ namespace HTMVideoLearning
             // Define Reader for Videos
             // Input videos are stored in different folders under TrainingVideos/
             // with their folder's names as label value. To get the paths of all folders:
-            string[] videoDatasetRootFolder = GetVideoSetPaths(trainingFolderPath);
-            string[] videoSetPaths = GetVideoSetPaths(trainingFolderPath);
+            //string[] videoDatasetRootFolder = GetVideoSetPaths(trainingFolderPath);
+            string[] videoSetDirectories = GetVideoSetPaths(trainingFolderPath);
 
             // A list of VideoSet object, each has the Videos and the name of the folder as Label, contains all the Data in TrainingVideos,
             // this List will be the core iterator in later learning and predicting
             List<VideoSet> videoData = new();
 
             // Iterate through every folder in TrainingVideos/ to create VideoSet: object that stores video of same folder/label
-            foreach (string path in videoDatasetRootFolder)
+            foreach (string path in videoSetDirectories)
             {
                 VideoSet vs = new(path, videoConfig.ColorMode, videoConfig.FrameWidth, videoConfig.FrameHeight, videoConfig.FrameRate);
                 videoData.Add(vs);
                 vs.ExtractFrames(convertedVideoDir);
             }
             //Initiating HTM
-            htmCfg.NumColumns = 18 * 18; //Should not be hard coded
-            htmCfg.NumColumns = 1024; //There must be a desired value for each video type
+            //htmCfg.NumColumns = 18 * 18;
+            //htmCfg.NumColumns = 1024; 
             var mem = new Connections(htmCfg);
 
             HtmClassifier<string, ComputeCycle> cls = new();
@@ -91,7 +92,7 @@ namespace HTMVideoLearning
 
             int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
 
-            int maxCycles = 1;
+            int maxCycles = 10;
             int newbornCycle = 0;
 
             HomeostaticPlasticityController hpa = new(mem, maxNumOfElementsInSequence * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
@@ -120,8 +121,8 @@ namespace HTMVideoLearning
             // Training SP to get stable. New-born stage.
             //
             ///*
-            for (int i = 0; i < maxCycles; i++)
-            //while (isInStableState == false)
+            //for (int i = 0; i < maxCycles; i++)
+            while (isInStableState == false)
             {
                 newbornCycle++;
 
@@ -144,7 +145,7 @@ namespace HTMVideoLearning
                             if (isInStableState)
                                 break;
                         }
-                        Console.Write("\n");
+                        Console.WriteLine();
                     }
                 }
 
@@ -163,6 +164,7 @@ namespace HTMVideoLearning
             sw.Reset();
             sw.Start();
             for (int i = 0; i < maxCycles; i++)
+            //foreach (VideoSet vd in videoData)
             {
                 List<double> setAccuracy = new();
                 WriteLineColor($"------------- Cycle {i} -------------", ConsoleColor.Green);
@@ -554,7 +556,7 @@ namespace HTMVideoLearning
             sw.Start();
 
             // Output folder initiation
-            string outputFolder = nameof(VideoLearning.Run2);
+            string outputFolder = nameof(VideoLearning.Run2) + "_" + GetCurrentTime();
             string convertedVideoDir, testOutputFolder;
 
             CreateTemporaryFolders(outputFolder, out convertedVideoDir, out testOutputFolder);
@@ -598,7 +600,8 @@ namespace HTMVideoLearning
 
             int maxCycles = 1000;
             int newbornCycle = 0;
-
+            //int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
+            //hpa should hold maxelement in sequence
             HomeostaticPlasticityController hpa = new(mem, 30 * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
             {
                 if (isStable)
@@ -846,6 +849,25 @@ namespace HTMVideoLearning
                 testNo = PredictImageInput(videoData, cls, layer1, userInput, testOutputFolder, testNo);
                 userInput = Console.ReadLine().Replace("\"", "");
             }
+        }
+
+        /// <summary>
+        /// Current timestamp to know when the program was started 
+        /// </summary>
+        /// <returns>Current time without any slash</returns>
+        private static string GetCurrentTime()
+        {
+            var currentTime = DateTime.Now.ToString();
+
+            var timeWithoutSpace = currentTime.Split();
+
+            var timeWithUnderScore = string.Join("_", timeWithoutSpace);
+
+            var timeWithoutColon = timeWithUnderScore.Replace(':', '-');
+
+            var timeWithoutSlash = timeWithoutColon.Replace('/', '-');
+
+            return timeWithoutSlash;
         }
 
         /// <summary>
