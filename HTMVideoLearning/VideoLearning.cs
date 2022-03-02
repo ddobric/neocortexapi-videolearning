@@ -343,6 +343,7 @@ namespace HTMVideoLearning
             while (userInput != "Q")
             {
                 testNo = PredictImageInput(videoData, cls, layer1, userInput, testOutputFolder, testNo);
+                WriteLineColor("Drag an image as input to recall the learned Video or type (Write Q to quit): ");
                 userInput = Console.ReadLine().Replace("\"", "");
             }
         }
@@ -750,6 +751,7 @@ namespace HTMVideoLearning
             while (userInput != "Q")
             {
                 testNo = PredictImageInput(videoData, cls, layer1, userInput, testOutputFolder, testNo);
+                WriteLineColor("Drag an image as input to recall the learned Video or type (Write Q to quit): ");
                 userInput = Console.ReadLine().Replace("\"", "");
             }
         }
