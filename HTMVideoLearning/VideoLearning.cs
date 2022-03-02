@@ -234,7 +234,7 @@ namespace HTMVideoLearning
 
                             // Remember the key with corresponding SDR using HTMClassifier to assign the current frame key with the Collumns Indicies array
                             WriteLineColor($"Current learning Key: {key}", ConsoleColor.Magenta);
-                            cls.Learn(currentFrame.key, actCells.ToArray());
+                            cls.Learn(currentFrame.FrameKey, actCells.ToArray());
 
                             if (learn == false)
                                 Console.WriteLine($"Inference mode");
@@ -286,10 +286,8 @@ namespace HTMVideoLearning
                             if (saturatedAccuracyCount >= 24 && lastCycleAccuracy >= 85)
                             {
                                 List<string> outputLog = new();
-                                if (!Directory.Exists(Path.Combine($"{outputFolder}", "TEST")))
-                                {
-                                    Directory.CreateDirectory(Path.Combine($"{outputFolder}", "TEST"));
-                                }
+                                MakeDirectoryIfRequired(Path.Combine($"{outputFolder}", "TEST"));
+                                
                                 string fileName = Path.Combine(outputFolder, "TEST", $"saturatedAccuracyLog_{nv.label}_{nv.name}");
                                 outputLog.Add($"Result Log for reaching saturated accuracy at {accuracy}");
                                 outputLog.Add($"Label: {nv.label}");
@@ -326,10 +324,7 @@ namespace HTMVideoLearning
             //Testing Section
             string userInput;
 
-            if (!Directory.Exists(testOutputFolder))
-            {
-                Directory.CreateDirectory(testOutputFolder);
-            }
+            MakeDirectoryIfRequired(testOutputFolder);
 
             int testNo = 0;
 
@@ -380,10 +375,7 @@ namespace HTMVideoLearning
             (int frameWidth, int frameHeight, ColorMode colorMode) = videoData[0].VideoSetConfig();
 
             string Outputdir = $"{testOutputFolder}" + @"\" + $"Predicted from {Path.GetFileNameWithoutExtension(userInput)}";
-            if (!Directory.Exists(Outputdir))
-            {
-                Directory.CreateDirectory(Outputdir);
-            }
+            MakeDirectoryIfRequired(Outputdir);
             testNo += 1;
             // Save the input Frame as NFrame
             NFrame inputFrame = new(new Bitmap(userInput), "TEST", "test", 0, frameWidth, frameHeight, colorMode);
@@ -701,10 +693,7 @@ namespace HTMVideoLearning
                             if (saturatedAccuracyCount >= 10 && lastCycleAccuracy > 80)
                             {
                                 List<string> outputLog = new();
-                                if (!Directory.Exists(Path.Combine($"{outputFolder}", "TEST")))
-                                {
-                                    Directory.CreateDirectory(Path.Combine($"{outputFolder}", "TEST"));
-                                }
+                                MakeDirectoryIfRequired(Path.Combine($"{outputFolder}", "TEST"));
                                 string fileName = Path.Combine(outputFolder, "TEST", $"saturatedAccuracyLog_{nv.label}_{nv.name}");
                                 outputLog.Add($"Result Log for reaching saturated accuracy at {accuracy}");
                                 outputLog.Add($"Label: {nv.label}");
@@ -742,10 +731,7 @@ namespace HTMVideoLearning
             //Testing Section
             string userInput;
 
-            if (!Directory.Exists(testOutputFolder))
-            {
-                Directory.CreateDirectory(testOutputFolder);
-            }
+            MakeDirectoryIfRequired(testOutputFolder);
 
             int testNo = 0;
 
@@ -824,7 +810,7 @@ namespace HTMVideoLearning
         }
         #endregion
 
-        #region private help method
+        #region private help methods
         /// <summary>
         /// Write accuracy of the cycle into result files 
         /// </summary>
@@ -836,10 +822,7 @@ namespace HTMVideoLearning
             string fileName = $"{videoName}_accuracy.txt";
             string path = Path.Combine(outputFolder,"AccuracyLog",labelName);
 
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            MakeDirectoryIfRequired(path);
 
             string fullPath = Path.Combine(path,fileName);
             using (StreamWriter sw = File.AppendText(fullPath))
@@ -861,7 +844,7 @@ namespace HTMVideoLearning
         // TODO: adding instruction/ introduction/ experiment flow
         private static void RenderHelloScreen()
         {
-            WriteLineColor($"Hello NeoCortexApi! Conducting experiment {nameof(VideoLearning)} CodeBreakers");
+            WriteLineColor($"Hello NeoCortexApi! Conducting experiment {nameof(VideoLearning)} CodeBreakers" + "\n");
         }
 
 
@@ -873,20 +856,13 @@ namespace HTMVideoLearning
         /// <param name="testOutputFolder"></param>
         private static void CreateTemporaryFolders(string outputFolder, out string convertedVideoDir, out string testOutputFolder)
         {
-            if (!Directory.Exists(outputFolder))
-            {
-                Directory.CreateDirectory(outputFolder);
-            }
+            MakeDirectoryIfRequired(outputFolder);
+
             convertedVideoDir = Path.Combine(outputFolder,"Converted");
-            if (!Directory.Exists($"{convertedVideoDir}"))
-            {
-                Directory.CreateDirectory($"{convertedVideoDir}");
-            }
+            MakeDirectoryIfRequired($"{convertedVideoDir}");
+
             testOutputFolder = Path.Combine(outputFolder,"TEST");
-            if (!Directory.Exists(testOutputFolder))
-            {
-                Directory.CreateDirectory(testOutputFolder);
-            }
+            MakeDirectoryIfRequired(testOutputFolder);
         }
         /// <summary>
         /// Print a line in Console with color and/or hightlight
@@ -941,6 +917,13 @@ namespace HTMVideoLearning
                 WriteLineColor("=========== Caught exception ============", ConsoleColor.Magenta);
                 WriteLineColor(e.Message, ConsoleColor.Magenta);
                 return videoSetPaths;
+            }
+        }
+        private static void MakeDirectoryIfRequired (string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
             }
         }
         #endregion
