@@ -234,7 +234,7 @@ namespace HTMVideoLearning
 
                             // Remember the key with corresponding SDR using HTMClassifier to assign the current frame key with the Collumns Indicies array
                             WriteLineColor($"Current learning Key: {key}", ConsoleColor.Magenta);
-                            cls.Learn(key, actCells.ToArray());
+                            cls.Learn(currentFrame.key, actCells.ToArray());
 
                             if (learn == false)
                                 Console.WriteLine($"Inference mode");
