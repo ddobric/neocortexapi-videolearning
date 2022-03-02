@@ -172,22 +172,22 @@ namespace HTMVideoLearning
             {
                // Iterating through every video in a VideoSet
                foreach (NVideo nv in vs.nVideoList)
-                  {
+               {
                     //List<NFrame> trainingVideo = nv.nFrames;
                     int maxPrevInputs = nv.nFrames.Count - 1;
-                        List<string> previousInputs = new();
-                        cycle = 0;
-                        learn = true;
-                        sw.Reset();
-                        sw.Start();
+                    List<string> previousInputs = new();
+                    cycle = 0;
+                    learn = true;
+                    sw.Reset();
+                    sw.Start();
 
-                        // Now training with SP+TM. SP is pretrained on the provided training videos.
-                        // Learning each frame in a video
-                        double lastCycleAccuracy = 0;
-                        int saturatedAccuracyCount = 0;
-                        bool isCompletedSuccessfully = false;
+                    // Now training with SP+TM. SP is pretrained on the provided training videos.
+                    // Learning each frame in a video
+                    double lastCycleAccuracy = 0;
+                    int saturatedAccuracyCount = 0;
+                    bool isCompletedSuccessfully = false;
 
-                   for (int i = 0; i < maxCycles; i++)
+                    for (int i = 0; i < maxCycles; i++)
                     {
                         matches = 0;
                         cycle++;
@@ -517,9 +517,9 @@ namespace HTMVideoLearning
 
             int maxCycles = 1000;
             int newbornCycle = 0;
-            //int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
+            int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
             //hpa should hold maxelement in sequence
-            HomeostaticPlasticityController hpa = new(mem, 30 * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
+            HomeostaticPlasticityController hpa = new(mem, maxNumOfElementsInSequence * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
             {
                 if (isStable)
                     // Event should be fired when entering the stable state.
