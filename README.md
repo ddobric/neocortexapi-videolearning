@@ -2,7 +2,7 @@
 Module: Project 12  
 Instructor: Damir Dobric, Proffessor Andreas Pech.  
 Student: 
-Mashnunul Huq, Mtr.         Major:IT
+Mashnunul Huq, Mtr.1384042 Major:IT
 Nusrat Jahan Sumi, Mtr.1345476 Major:IT 
 Toan Thanh Truong, Mtr. 1185050 Major: IT Gbr. 23.02.1997
   
