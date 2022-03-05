@@ -238,7 +238,7 @@ namespace HTMVideoLearning
                             cls.Learn(currentFrame.FrameKey, actCells.ToArray());
 
                             if (learn == false)
-                                Console.WriteLine($"Inference mode");
+                                Console.WriteLine("Inference mode");
 
                             Console.WriteLine($"Col  SDR: {Helpers.StringifyVector(lyrOut.ActivColumnIndicies)}");
                             Console.WriteLine($"Cell SDR: {Helpers.StringifyVector(actCells.Select(c => c.Index).ToArray())}");
@@ -269,14 +269,14 @@ namespace HTMVideoLearning
                             }
                             else
                             {
-                                Console.WriteLine($"NO CELLS PREDICTED for next cycle.");
+                                Console.WriteLine("NO CELLS PREDICTED for next cycle.");
                                 lastPredictedValue.Clear();
                             }
                         }
                         double accuracy;
 
                         accuracy = (double)matches / ((double)nv.nFrames.Count - 1.0) * 100.0;
-                        UpdateAccuracy(vs.VideoSetLabel, nv.name, accuracy, Path.Combine($"{outputFolder}", "TEST"));
+                        UpdateAccuracy(vs.VideoSetLabel, nv.name, accuracy, Path.Combine(outputFolder, "TEST"));
 
                         Console.WriteLine($"Cycle: {cycle}\tMatches={matches} of {nv.nFrames.Count}\t {accuracy}%");
                         if (accuracy == lastCycleAccuracy)
@@ -287,7 +287,7 @@ namespace HTMVideoLearning
                             if (saturatedAccuracyCount >= 24 && lastCycleAccuracy >= 85)
                             {
                                 List<string> outputLog = new();
-                                MakeDirectoryIfRequired(Path.Combine($"{outputFolder}", "TEST"));
+                                MakeDirectoryIfRequired(Path.Combine(outputFolder, "TEST"));
                                 
                                 string fileName = Path.Combine(outputFolder, "TEST", $"saturatedAccuracyLog_{nv.label}_{nv.name}");
                                 outputLog.Add($"Result Log for reaching saturated accuracy at {accuracy}");
@@ -376,12 +376,12 @@ namespace HTMVideoLearning
             // TODO: refactor video library for easier access to these properties
             (int frameWidth, int frameHeight, ColorMode colorMode) = videoData[0].VideoSetConfig();
 
-            string Outputdir = $"{testOutputFolder}" + @"\" + $"Predicted from {Path.GetFileNameWithoutExtension(userInput)}";
+            string Outputdir = Path.Combine(testOutputFolder, $"Predicted from {Path.GetFileNameWithoutExtension(userInput)}");
             MakeDirectoryIfRequired(Outputdir);
             testNo += 1;
             // Save the input Frame as NFrame
             NFrame inputFrame = new(new Bitmap(userInput), "TEST", "test", 0, frameWidth, frameHeight, colorMode);
-            inputFrame.SaveFrame(Outputdir + @"\" + $"Converted_{Path.GetFileName(userInput)}");
+            inputFrame.SaveFrame(Path.Combine(Outputdir, $"Converted_{Path.GetFileName(userInput)}"));
             // Compute the SDR of the Frame
             var lyrOut = layer1.Compute(inputFrame.EncodedBitArray, false) as ComputeCycle;
 
@@ -391,7 +391,7 @@ namespace HTMVideoLearning
 
             foreach (var serie in predictedInputValue)
             {
-                WriteLineColor($"Predicted Serie:", ConsoleColor.Green);
+                WriteLineColor("Predicted Series:", ConsoleColor.Green);
                 string s = serie.PredictedInput;
                 WriteLineColor(s);
                 Console.WriteLine("\n");
@@ -421,7 +421,7 @@ namespace HTMVideoLearning
                 // Create output video
                 NVideo.CreateVideoFromFrames(
                     outputNFrameList,
-                    $"{Outputdir}" + @"\" + $"testNo_{testNo}_Label{Label}_similarity{serie.Similarity}_No of same bit{serie.NumOfSameBits}.mp4",
+                    Path.Combine(Outputdir, $"testNo_{testNo}_Label{Label}_similarity{serie.Similarity}_No of same bit{serie.NumOfSameBits}.mp4"),
                     (int)videoData[0].nVideoList[0].frameRate,
                     new Size((int)videoData[0].nVideoList[0].frameWidth, (int)videoData[0].nVideoList[0].frameHeight),
                     true);
@@ -646,7 +646,7 @@ namespace HTMVideoLearning
                             cls.Learn(key, actCells.ToArray());
 
                             if (learn == false)
-                                Console.WriteLine($"Inference mode");
+                                Console.WriteLine("Inference mode");
 
                             Console.WriteLine($"Col  SDR: {Helpers.StringifyVector(lyrOut.ActivColumnIndicies)}");
                             Console.WriteLine($"Cell SDR: {Helpers.StringifyVector(actCells.Select(c => c.Index).ToArray())}");
@@ -676,7 +676,7 @@ namespace HTMVideoLearning
                             }
                             else
                             {
-                                Console.WriteLine($"NO CELLS PREDICTED for next cycle.");
+                                Console.WriteLine("NO CELLS PREDICTED for next cycle.");
                                 lastPredictedValue.Clear();
                             }
                         }
@@ -685,7 +685,7 @@ namespace HTMVideoLearning
 
                         accuracy = (double)matches / ((double)nv.nFrames.Count - 1.0) * 100.0; // Use if with reset
                         //accuracy = (double)matches / (double)nv.nFrames.Count * 100.0; // Use if without reset
-                        UpdateAccuracy(vd.VideoSetLabel, nv.name, accuracy, Path.Combine($"{outputFolder}", "TEST"));
+                        UpdateAccuracy(vd.VideoSetLabel, nv.name, accuracy, Path.Combine(outputFolder, "TEST"));
 
                         Console.WriteLine($"Cycle: {cycle}\tMatches={matches} of {nv.nFrames.Count}\t {accuracy}%");
                         if (accuracy == lastCycleAccuracy)
@@ -696,7 +696,7 @@ namespace HTMVideoLearning
                             if (saturatedAccuracyCount >= 10 && lastCycleAccuracy > 80)
                             {
                                 List<string> outputLog = new();
-                                MakeDirectoryIfRequired(Path.Combine($"{outputFolder}", "TEST"));
+                                MakeDirectoryIfRequired(Path.Combine(outputFolder, "TEST"));
                                 string fileName = Path.Combine(outputFolder, "TEST", $"saturatedAccuracyLog_{nv.label}_{nv.name}");
                                 outputLog.Add($"Result Log for reaching saturated accuracy at {accuracy}");
                                 outputLog.Add($"Label: {nv.label}");
@@ -851,7 +851,8 @@ namespace HTMVideoLearning
             WriteLineColor($"Hello NeoCortexApi! Conducting experiment {nameof(VideoLearning)} CodeBreakers" + "\n" + 
                 "This program can take initial information of the training video from VideoConfig.json" + "\n" +
                 "If you are training with a new set of videos please place the videos in the folder name SmallTrainingSet" + "\n" +
-                "Moreover you also need to give video metadata information in the VideoConfig.json file");
+                "Moreover you also need to give video metadata information in the VideoConfig.json file" + "\n" +
+                "To change HTMClassifier configuration use htmConfig.json");
         }
 
         /// <summary>
@@ -865,7 +866,7 @@ namespace HTMVideoLearning
             MakeDirectoryIfRequired(outputFolder);
 
             convertedVideoDir = Path.Combine(outputFolder,"Converted");
-            MakeDirectoryIfRequired($"{convertedVideoDir}");
+            MakeDirectoryIfRequired(convertedVideoDir);
 
             testOutputFolder = Path.Combine(outputFolder,"TEST");
             MakeDirectoryIfRequired(testOutputFolder);
@@ -900,16 +901,16 @@ namespace HTMVideoLearning
             if (Directory.Exists(folderPath))
             {
                 testDir = folderPath;
-                WriteLineColor($"Inserted Path is found", ConsoleColor.Green);
+                WriteLineColor("Inserted Path is found", ConsoleColor.Green);
                 Console.WriteLine($"Begin reading directory: {folderPath} ...");
             }
             else
             {
                 string currentDir = Directory.GetCurrentDirectory();
-                WriteLineColor($"The inserted path for the training folder is invalid. " +
+                WriteLineColor("The inserted path for the training folder is invalid. " +
                     $"If you have trouble adding the path, copy your training folder with name TrainingVideos to {currentDir}", ConsoleColor.Yellow);
                 // Get the root path of training videos
-                testDir = $"{currentDir}\\TrainingVideos";
+                testDir = Path.Combine(currentDir, "TrainingVideos");
             }
             // Get all the folders that contain video sets under TrainingVideos
             try
