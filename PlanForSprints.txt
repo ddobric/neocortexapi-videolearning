@@ -46,8 +46,9 @@ few modification in readme files
 Initiation of documentation of the project.
 
 Sprint 8(Mar 1- Mar 7)
-Correct run1 do while loop of VideoLearning.cs to iterate perfectly
+Correct run1 do while loop of VideoLearning.cs to iterate perfectly changed it into while do loop
 fixing the console writing problem
+Created MakeDirectoryIfRequired function to follow dry method
 
 Sprint 8(Mar 8- Mar 14)
 

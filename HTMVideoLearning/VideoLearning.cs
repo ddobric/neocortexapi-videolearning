@@ -91,13 +91,13 @@ namespace HTMVideoLearning
             bool learn = true;
 
             //This should be 30 minimum
-            //int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
+            int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
 
             int maxCycles = 10;
             int newbornCycle = 0;
 
             //HomeostaticPlasticityController hpa = new(mem, maxNumOfElementsInSequence * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
-            HomeostaticPlasticityController hpa = new(mem, 30 * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
+            HomeostaticPlasticityController hpa = new(mem, maxNumOfElementsInSequence * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
             {
                 if (isStable)
                     // Event should be fired when entering the stable state.
@@ -232,6 +232,7 @@ namespace HTMVideoLearning
                                 actCells = lyrOut.WinnerCells;
                             }
 
+                            //This is where two training functions defers, here FrameKey is used for HTMClassifier learning
                             // Remember the key with corresponding SDR using HTMClassifier to assign the current frame key with the Collumns Indicies array
                             WriteLineColor($"Current learning Key: {key}", ConsoleColor.Magenta);
                             cls.Learn(currentFrame.FrameKey, actCells.ToArray());
@@ -639,6 +640,7 @@ namespace HTMVideoLearning
                                 actCells = lyrOut.WinnerCells;
                             }
 
+                            //This is where two training functions defers, here a series of FrameKeys are used for HTMClassifier learning
                             // Remember the key with corresponding SDR
                             WriteLineColor($"Current learning Key: {key}", ConsoleColor.Magenta);
                             cls.Learn(key, actCells.ToArray());
@@ -846,9 +848,11 @@ namespace HTMVideoLearning
         // TODO: adding instruction/ introduction/ experiment flow
         private static void RenderHelloScreen()
         {
-            WriteLineColor($"Hello NeoCortexApi! Conducting experiment {nameof(VideoLearning)} CodeBreakers" + "\n");
+            WriteLineColor($"Hello NeoCortexApi! Conducting experiment {nameof(VideoLearning)} CodeBreakers" + "\n" + 
+                "This program can take initial information of the training video from VideoConfig.json" + "\n" +
+                "If you are training with a new set of videos please place the videos in the folder name SmallTrainingSet" + "\n" +
+                "Moreover you also need to give video metadata information in the VideoConfig.json file");
         }
-
 
         /// <summary>
         /// Create folders required for the experiment.
