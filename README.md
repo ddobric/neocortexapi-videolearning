@@ -132,6 +132,7 @@ Current Video Configuration:
     "Run2ExperimentOutput\\Converted\\Triangle\\triangle\\Triangle_triangle_23.png",
     "Run2ExperimentOutput\\Converted\\Triangle\\triangle\\Triangle_triangle_0.png"
   ]
+``` 
 To imply new video sets these configuration needs to be changed acordingly and the video files must be kept in the folder named "SmallTrainingSet".
 If the video file codec is not mp4 then go to the line where NVideo.CreateVideoFromFrames is initiated and change the argument codec = ['P', 'I', 'M', '1'] or ['H', '2', '6', '4']
 The default codec = ['m', 'p', '4', 'v'] 
