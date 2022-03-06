@@ -80,7 +80,7 @@ VideoWriter videoWriter = new($"{videoOutputPath}.mp4", -1, (int)frameRate, dime
 ```
 **NOTE:**  
 The current implementation of VideoLibrary saves all training data into a List of VideoSet, which contains all video information and their contents. For further scaling of the training set. It would be better to only store the index, where to access the video from the training data. This way the data would only be access when it is indexed and save memory for other processes.
-## 4. Learning Process:
+## 4.1. Learning Process:
 Current HTM Configuration:
 ```csharp
 private static HtmConfig GetHTM(int[] inputBits, int[] numColumns)
@@ -116,6 +116,27 @@ private static HtmConfig GetHTM(int[] inputBits, int[] numColumns)
 Running the experiment Run1 and Run2 first prompt the user to input a training folder path. There are currently 3 sample training data sets, drag the folder to the command window to insert its path to the prompt. Hit `Enter` and the Video reading begins.
 
 After reading the Videos into VideoSets, the learning begins.
+## 4.2. Video Configuration:
+Current Video Configuration:
+```json
+  "frameWidth": 18,
+  "frameHeight": 18,
+  "frameRate": 12,
+  "ColorMode": "BLACKWHITE",
+  "TrainingDatasetRoot": "SmallTrainingSet",
+  "TestFiles": [
+    "Run2ExperimentOutput\\Converted\\Circle\\circle\\Circle_circle_3.png",
+    "Run2ExperimentOutput\\Converted\\Circle\\circle\\Circle_circle_2.png",
+    "Run2ExperimentOutput\\Converted\\Rectangle\\rectangle\\Rectangle_rectangle_28.png",
+    "Run2ExperimentOutput\\Converted\\Rectangle\\rectangle\\Rectangle_rectangle_18.png",
+    "Run2ExperimentOutput\\Converted\\Triangle\\triangle\\Triangle_triangle_23.png",
+    "Run2ExperimentOutput\\Converted\\Triangle\\triangle\\Triangle_triangle_0.png"
+  ]
+``` 
+To imply new video sets these configuration in vidoeConfig.json needs to be changed acordingly and the video files must be kept in the folder named "SmallTrainingSet".
+If the video file codec is not mp4 then go to the line where NVideo.CreateVideoFromFrames is initiated and change the argument codec = ['P', 'I', 'M', '1'] or ['H', '2', '6', '4']
+The default codec = ['m', 'p', '4', 'v'] 
+
 ### 1. SP Learning with HomeoStatic Plasticity Controller (HPA):
 This first section of learning use Homeostatic Plasticity Controller:
 ```csharp
