@@ -36,8 +36,8 @@ namespace HTMVideoLearning
         /// <br>as long as there are predicted cells.</br>
         /// <br>The predicted series of Frame after the input frame are made into videos under Run1Experiment/TEST/</br>
         /// </summary>
-        /// <param name="videoConfig"></param>
-        /// <param name="htmCfg"></param>
+        /// <param name="videoConfig">Config values of video file</param>
+        /// <param name="htmCfg">HTM config values</param>
         public static void Run1(VideoConfig videoConfig = null, HtmConfig htmCfg = null)
         {
             Stopwatch sw = new();
@@ -452,8 +452,8 @@ namespace HTMVideoLearning
         /// <br> Drag an Image as input, The trained layer will try to predict the next Frame, then uses the next frame label - framekey series</br>
         /// <br> to recreate the video under Run2Experiment/TEST/</br>
         /// </summary>
-        /// <param name="videoConfig"></param>
-        /// <param name="htmCfg"></param>
+        /// <param name="videoConfig">Config values of video file</param>
+        /// <param name="htmCfg">HTM config values</param>
         public static void Run2(VideoConfig videoConfig = null, HtmConfig htmCfg = null)
         {
             RenderHelloScreen();
@@ -781,8 +781,8 @@ namespace HTMVideoLearning
         /// Checking if Training DatasetRoot is defined in videoConfig.json
         /// if not Prompt the user to manually input the path to the program 
         /// </summary>
-        /// <param name="videoConfig"></param>
-        /// <returns></returns>
+        /// <param name="videoConfig">Config values of video file</param>
+        /// <returns>Training folder path</returns>
         private static string CheckIfPathExists(VideoConfig videoConfig)
         {
             string trainingFolderPath = videoConfig?.TrainingDatasetRoot ?? null;
@@ -818,9 +818,10 @@ namespace HTMVideoLearning
         /// <summary>
         /// Write accuracy of the cycle into result files 
         /// </summary>
-        /// <param name="name1"></param>
-        /// <param name="name2"></param>
-        /// <param name="accuracy"></param>
+        /// <param name="labelName">Name of the Label</param>
+        /// <param name="videoName">Name of the video</param>
+        /// <param name="accuracy">accuracy value</param>
+        /// <param name="outputFolder"> Path of the directory where the output will be saved</param>
         private static void UpdateAccuracy(string labelName, string videoName, double accuracy, string outputFolder)
         {
             string fileName = $"{videoName}_accuracy.txt";
@@ -857,9 +858,9 @@ namespace HTMVideoLearning
         /// <summary>
         /// Create folders required for the experiment.
         /// </summary>
-        /// <param name="outputFolder"></param>
-        /// <param name="convertedVideoDir"></param>
-        /// <param name="testOutputFolder"></param>
+        /// <param name="outputFolder">Output folder</param>
+        /// <param name="convertedVideoDir">Converted Video directory</param>
+        /// <param name="testOutputFolder">Test output folder</param>
         private static void CreateTemporaryFolders(string outputFolder, out string convertedVideoDir, out string testOutputFolder)
         {
             MakeDirectoryIfRequired(outputFolder);
@@ -925,6 +926,9 @@ namespace HTMVideoLearning
                 return videoSetPaths;
             }
         }
+        /// <summary>
+        /// If the directory does not exist, it enters the directory
+        /// <param name="path">directory path</param>
         private static void MakeDirectoryIfRequired (string path)
         {
             if (!Directory.Exists(path))
