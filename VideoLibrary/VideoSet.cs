@@ -78,7 +78,7 @@ namespace VideoLibrary
         {
             foreach(NVideo nv in nVideoList)
             {
-                string folderName = Path.Combine(videoOutputDirectory,nv.label);
+                string folderName = Path.Combine(videoOutputDirectory, nv.label);
                 if (!Directory.Exists(folderName))
                 {
                     Directory.CreateDirectory(folderName);
