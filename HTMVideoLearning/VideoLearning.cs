@@ -38,7 +38,7 @@ namespace HTMVideoLearning
         /// </summary>
         /// <param name="videoConfig">Config values of video file</param>
         /// <param name="htmCfg">HTM config values</param>
-        public static void Run1(VideoConfig videoConfig = null, HtmConfig htmCfg = null)
+        public static void TrainWithFrameKey(VideoConfig videoConfig = null, HtmConfig htmCfg = null)
         {
             Stopwatch sw = new();
             List<TimeSpan> RecordedTime = new();
@@ -53,7 +53,7 @@ namespace HTMVideoLearning
 
             sw.Start();
 
-            string outputFolder = nameof(VideoLearning.Run1) + "_" + GetCurrentTime();
+            string outputFolder = nameof(VideoLearning.TrainWithFrameKey) + "_" + GetCurrentTime();
             string convertedVideoDir, testOutputFolder;
 
             CreateTemporaryFolders(outputFolder, out convertedVideoDir, out testOutputFolder);
@@ -454,7 +454,7 @@ namespace HTMVideoLearning
         /// </summary>
         /// <param name="videoConfig">Config values of video file</param>
         /// <param name="htmCfg">HTM config values</param>
-        public static void Run2(VideoConfig videoConfig = null, HtmConfig htmCfg = null)
+        public static void TrainWithFrameKeys(VideoConfig videoConfig = null, HtmConfig htmCfg = null)
         {
             RenderHelloScreen();
         
@@ -467,7 +467,7 @@ namespace HTMVideoLearning
             sw.Start();
 
             // Output folder initiation
-            string outputFolder = nameof(VideoLearning.Run2) + "_" + GetCurrentTime();
+            string outputFolder = nameof(VideoLearning.TrainWithFrameKey) + "_" + GetCurrentTime();
             string convertedVideoDir, testOutputFolder;
 
             CreateTemporaryFolders(outputFolder, out convertedVideoDir, out testOutputFolder);
