@@ -159,7 +159,7 @@ namespace HTMVideoLearning
             layer1.HtmModules.Add("tm", tm);
 
             // Accuracy Check
-            
+
             int cycle = 0;
             int matches = 0;
 
@@ -170,9 +170,9 @@ namespace HTMVideoLearning
             //{
             foreach (VideoSet vs in videoData)
             {
-               // Iterating through every video in a VideoSet
-               foreach (NVideo nv in vs.nVideoList)
-               {
+                // Iterating through every video in a VideoSet
+                foreach (NVideo nv in vs.nVideoList)
+                {
                     //List<NFrame> trainingVideo = nv.nFrames;
                     int maxPrevInputs = nv.nFrames.Count - 1;
                     List<string> previousInputs = new();
@@ -204,9 +204,9 @@ namespace HTMVideoLearning
                             Console.WriteLine(string.Join(',', lyrOut.ActivColumnIndicies));
                             // lyrOut is null when the TM is added to the layer inside of HPC callback by entering of the stable state
 
-                            previousInputs.Add(currentFrame.FrameKey);
+                            /*previousInputs.Add(currentFrame.FrameKey);
                             if (previousInputs.Count > (maxPrevInputs + 1))
-                                previousInputs.RemoveAt(0);
+                                previousInputs.RemoveAt(0);*/
 
                             // In the pretrained SP with HPC, the TM will quickly learn cells for patterns
                             // In that case the starting sequence 4-5-6 might have the sam SDR as 1-2-3-4-5-6,
@@ -217,7 +217,7 @@ namespace HTMVideoLearning
                             if (previousInputs.Count < maxPrevInputs)
                                 continue;
 
-                            string key = GetKey(previousInputs);
+                            string key = currentFrame.FrameKey;
                             List<Cell> actCells;
 
                             WriteLineColor($"WinnerCell Count: {lyrOut.WinnerCells.Count}", ConsoleColor.Cyan);
@@ -288,7 +288,7 @@ namespace HTMVideoLearning
                             {
                                 List<string> outputLog = new();
                                 MakeDirectoryIfRequired(Path.Combine(outputFolder, "TEST"));
-                                
+
                                 string fileName = Path.Combine(outputFolder, "TEST", $"saturatedAccuracyLog_{nv.label}_{nv.name}");
                                 outputLog.Add($"Result Log for reaching saturated accuracy at {accuracy}");
                                 outputLog.Add($"Label: {nv.label}");
@@ -467,7 +467,7 @@ namespace HTMVideoLearning
             sw.Start();
 
             // Output folder initiation
-            string outputFolder = nameof(VideoLearning.TrainWithFrameKey) + "_" + GetCurrentTime();
+            string outputFolder = nameof(VideoLearning.TrainWithFrameKeys) + "_" + GetCurrentTime();
             string convertedVideoDir, testOutputFolder;
 
             CreateTemporaryFolders(outputFolder, out convertedVideoDir, out testOutputFolder);
