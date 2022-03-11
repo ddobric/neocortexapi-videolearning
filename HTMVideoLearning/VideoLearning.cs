@@ -93,7 +93,7 @@ namespace HTMVideoLearning
             //This should be 30 minimum
             int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
 
-            int maxCycles = 10;
+            int maxCycles = 50;
             int newbornCycle = 0;
 
             //HomeostaticPlasticityController hpa = new(mem, maxNumOfElementsInSequence * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
@@ -110,7 +110,7 @@ namespace HTMVideoLearning
                 learn = isInStableState = isStable;
 
                 // Clear all learned patterns in the classifier.
-                cls.ClearState();
+                //cls.ClearState();
 
             }, numOfCyclesToWaitOnChange: 50);
 
@@ -175,7 +175,7 @@ namespace HTMVideoLearning
                 {
                     //List<NFrame> trainingVideo = nv.nFrames;
                     int maxPrevInputs = nv.nFrames.Count - 1;
-                    List<string> previousInputs = new();
+                    /*List<string> previousInputs = new();*/
                     cycle = 0;
                     learn = true;
                     sw.Reset();
@@ -214,8 +214,7 @@ namespace HTMVideoLearning
                             // HtmClassifier allways return the first matching sequence. Because 4-5-6 will be as first
                             // memorized, it will match as the first one.
 
-                            if (previousInputs.Count < maxPrevInputs)
-                                continue;
+                            
 
                             string key = currentFrame.FrameKey;
                             List<Cell> actCells;
@@ -319,7 +318,7 @@ namespace HTMVideoLearning
 
                     }
                     Console.WriteLine("------------ END ------------");
-                    previousInputs.Clear();
+                    /*previousInputs.Clear();*/
                 }
             }
             //Testing Section
