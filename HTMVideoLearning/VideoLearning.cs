@@ -75,9 +75,7 @@ namespace HTMVideoLearning
                 videoData.Add(vs);
                 vs.ExtractFrames(convertedVideoDir);
             }
-            //Initiating HTM
-            //htmCfg.NumColumns = 18 * 18;
-            //htmCfg.NumColumns = 1024; 
+            
             var mem = new Connections(htmCfg);
 
             HtmClassifier<string, ComputeCycle> cls = new();
@@ -93,7 +91,7 @@ namespace HTMVideoLearning
             //This should be 30 minimum
             int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
 
-            int maxCycles = 50;
+            int maxCycles = 1000;
             int newbornCycle = 0;
 
             //HomeostaticPlasticityController hpa = new(mem, maxNumOfElementsInSequence * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
@@ -165,17 +163,12 @@ namespace HTMVideoLearning
 
             List<string> lastPredictedValue = new();
 
-            //for (int i = 0; i < maxCycles; i++)
-            //foreach (VideoSet vd in videoData)
-            //{
             foreach (VideoSet vs in videoData)
             {
                 // Iterating through every video in a VideoSet
                 foreach (NVideo nv in vs.nVideoList)
                 {
-                    //List<NFrame> trainingVideo = nv.nFrames;
                     int maxPrevInputs = nv.nFrames.Count - 1;
-                    /*List<string> previousInputs = new();*/
                     cycle = 0;
                     learn = true;
                     sw.Reset();
@@ -203,10 +196,6 @@ namespace HTMVideoLearning
 
                             Console.WriteLine(string.Join(',', lyrOut.ActivColumnIndicies));
                             // lyrOut is null when the TM is added to the layer inside of HPC callback by entering of the stable state
-
-                            /*previousInputs.Add(currentFrame.FrameKey);
-                            if (previousInputs.Count > (maxPrevInputs + 1))
-                                previousInputs.RemoveAt(0);*/
 
                             // In the pretrained SP with HPC, the TM will quickly learn cells for patterns
                             // In that case the starting sequence 4-5-6 might have the sam SDR as 1-2-3-4-5-6,
@@ -307,7 +296,6 @@ namespace HTMVideoLearning
                             saturatedAccuracyCount = 0;
                         }
                         lastCycleAccuracy = accuracy;
-                        //learn = true;
 
                         // Reset Temporal memory after learning 1 time the video/sequence
                         tm.Reset(mem);
@@ -318,7 +306,6 @@ namespace HTMVideoLearning
 
                     }
                     Console.WriteLine("------------ END ------------");
-                    /*previousInputs.Clear();*/
                 }
             }
             //Testing Section
