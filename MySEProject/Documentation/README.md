@@ -223,7 +223,7 @@ The trained layer will use this image to try recreate the video it has learned f
 
 
 **RESULT**  
-- Due to the conversion of the input picture to fit the current model the input is also processed by VideoLibrary to the dimension of the training model. The scaled input image can also be found in the Run1ExperimentOutput/TEST/Predicted from (image name)/.  
+- Due to the conversion of the input picture to fit the current model the input is also processed by VideoLibrary to the dimension of the training model. The scaled input image can also be found in the TrainWithFrameKey_Date_Time/TEST/Predicted from (image name)/.  
 - Ideally, a sequence of half the length of the video would regards this experiment as a success. Unfortunately, runs result in sequence of 1-5 frames after the input frame. 
 - It is observed that the triangle set - the last training set in small training set has the best sequence generation with sometime up to 15 frames. 
 - In some case frame that overlap each other e.g. the triangle at the same place of the circle may result in shape change but correct translation.  
@@ -297,11 +297,11 @@ The trained layer will use this image to try recreate the video it has learned f
 - The image can be drag into the command window and press enter to confirm input. The model use the input frame to predict the key.  
 - if there are predicted cells from compute, HTMClassifier takes at most 5 possibilities (can be changed in code) of the predicted key.  
 - In case there are at least 1 key, the codecs will appears and the green lines indicate the next predicted key from the memory by HTMClassifier. 
-- The output video can be found under Run2ExperimentOutput/TEST/ with the folder name (Predicted From "Image name").  
-- Usually in this Test, The input image are chosen from the Directory Run1Experiment/converted/(label)/(videoName)/(FrameKey) for easier check if the trained model predict the correct next frame.  
+- The output video can be found under TrainWithFrameKey_Date_Time/TEST/ with the folder name (Predicted From "Image name").  
+- Usually in this Test, The input image are chosen from the Directory TestImageSet/converted/(label)/(videoName)/(FrameKey) for easier check if the trained model predict the correct next frame.  
 
 **RESULT**
-- Due to the conversion of the input picture to fit the current model the input is also processed by VideoLibrary to the dimension of the training model. The scaled input image can also be found in the Run1ExperimentOutput/TEST/Predicted from (image name)/. 
+- Due to the conversion of the input picture to fit the current model the input is also processed by VideoLibrary to the dimension of the training model. The scaled input image can also be found in the TrainWithFrameKey_Date_Time/TEST/Predicted from (image name)/. 
 - The log files after learning each video are also recorded as saturatedAccuracyLog_(label)_(video name) in the TEST/ directory.
 - The output Video has full length of the video.
 - The prediction sometimes forget the first video and enter unstable state again. This was mentioned in HPA above. The current way to cope with the phenomenom is comment out `cls.ClearState()` in declaration of HPA.
