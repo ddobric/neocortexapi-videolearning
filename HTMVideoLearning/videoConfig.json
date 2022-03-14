@@ -6,14 +6,14 @@
   "ColorMode": "BLACKWHITE",
   "TrainingDatasetRoot": "SmallTrainingSet",
   "TestFiles": [
-    "Run2ExperimentOutput\\Converted\\Circle\\circle\\Circle_circle_3.png",
-    "Run2ExperimentOutput\\Converted\\Circle\\circle\\Circle_circle_2.png",
-    "Run2ExperimentOutput\\Converted\\Line\\line\\Line_line_11.png",
-    "Run2ExperimentOutput\\Converted\\Line\\line\\Line_line_22.png",
-    "Run2ExperimentOutput\\Converted\\Rectangle\\rectangle\\Rectangle_rectangle_28.png",
-    "Run2ExperimentOutput\\Converted\\Rectangle\\rectangle\\Rectangle_rectangle_18.png",
-    "Run2ExperimentOutput\\Converted\\Triangle\\triangle\\Triangle_triangle_23.png",
-    "Run2ExperimentOutput\\Converted\\Triangle\\triangle\\Triangle_triangle_0.png"
+    "TestImageSet\\Converted\\Circle\\circle\\Circle_circle_3.png",
+    "TestImageSet\\Converted\\Circle\\circle\\Circle_circle_2.png",
+    "TestImageSet\\Converted\\Line\\line\\Line_line_11.png",
+    "TestImageSet\\Converted\\Line\\line\\Line_line_22.png",
+    "TestImageSet\\Converted\\Rectangle\\rectangle\\Rectangle_rectangle_28.png",
+    "TestImageSet\\Converted\\Rectangle\\rectangle\\Rectangle_rectangle_18.png",
+    "TestImageSet\\Converted\\Triangle\\triangle\\Triangle_triangle_23.png",
+    "TestImageSet\\Converted\\Triangle\\triangle\\Triangle_triangle_0.png"
   ]
 
 }
