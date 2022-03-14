@@ -51,5 +51,10 @@ fixing the console writing problem
 Created MakeDirectoryIfRequired function to follow dry method
 
 Sprint 8(Mar 8- Mar 14)
+Change run1 to TrainWithFramekey and run2 to TrainWithFramekeys
+Fix accuracy calculation of TrainWithFramekey
+Make documentation
 
 Sprint 9(Mar 15- Mar 21)
+Fix problems of documentation
+make the mp4 video file of your work
