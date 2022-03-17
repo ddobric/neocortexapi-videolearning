@@ -374,17 +374,24 @@ namespace HTMVideoLearning
             // Use HTMClassifier to calculate 5 possible next Cells Arrays
             var predictedInputValue = cls.GetPredictedInputValues(lyrOut.PredictiveCells.ToArray(), 5);
 
+            string[] inputPath = userInput.Split('\\');
+            WriteLineColor("Predicting for " + inputPath.Last(), ConsoleColor.Red);
 
             foreach (var serie in predictedInputValue)
             {
                 WriteLineColor("Predicted Series:", ConsoleColor.Green);
+                //Here the frame matching accuracy is calculated
+                double objectAccuracy = serie.Similarity;
                 string s = serie.PredictedInput;
-                WriteLineColor(s);
-                Console.WriteLine("\n");
                 //Create List of NFrame to write to Video
                 List<NFrame> outputNFrameList = new();
                 string Label = "";
                 List<string> frameKeyList = s.Split("-").ToList();
+                string[] frameName = frameKeyList[0].Split('_');
+                WriteLineColor($"{objectAccuracy}% match found with " + frameName[0]);
+                Console.WriteLine("\n");
+                WriteLineColor(s);
+                Console.WriteLine("\n");
                 foreach (string frameKey in frameKeyList)
                 {
                     foreach (var vs in videoData)
