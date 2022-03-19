@@ -374,8 +374,7 @@ namespace HTMVideoLearning
             // Use HTMClassifier to calculate 5 possible next Cells Arrays
             var predictedInputValue = cls.GetPredictedInputValues(lyrOut.PredictiveCells.ToArray(), 5);
 
-            string[] inputPath = userInput.Split('\\');
-            WriteLineColor("Predicting for " + inputPath.Last(), ConsoleColor.Red);
+            WriteLineColor("Predicting for " + Path.GetFileNameWithoutExtension(userInput), ConsoleColor.Red);
 
             foreach (var serie in predictedInputValue)
             {
@@ -389,8 +388,8 @@ namespace HTMVideoLearning
                 List<string> frameKeyList = s.Split("-").ToList();
                 string[] frameName = frameKeyList[0].Split('_');
                 WriteLineColor($"{objectAccuracy}% match found with " + frameName[0]);
-                Console.WriteLine("\n");
-                WriteLineColor(s);
+                string details = $"{objectAccuracy}% match found with " + frameName[0] + "\n" + s;
+                UpdateAccuracy(Path.GetFileNameWithoutExtension(userInput), Path.GetFileNameWithoutExtension(userInput), objectAccuracy, Outputdir, details);
                 Console.WriteLine("\n");
                 foreach (string frameKey in frameKeyList)
                 {
@@ -815,16 +814,22 @@ namespace HTMVideoLearning
         /// <param name="videoName">Name of the video</param>
         /// <param name="accuracy">accuracy value</param>
         /// <param name="outputFolder"> Path of the directory where the output will be saved</param>
-        private static void UpdateAccuracy(string labelName, string videoName, double accuracy, string outputFolder)
+        private static void UpdateAccuracy(string labelName, string videoName, double accuracy, string outputFolder, string extra = null)
         {
             string fileName = $"{videoName}_accuracy.txt";
             string path = Path.Combine(outputFolder,"AccuracyLog",labelName);
+
+            
 
             MakeDirectoryIfRequired(path);
 
             string fullPath = Path.Combine(path,fileName);
             using (StreamWriter sw = File.AppendText(fullPath))
             {
+                if(extra != null)
+                {
+                    sw.WriteLine(extra);
+                }
                 sw.WriteLine(accuracy);
             }
         }
