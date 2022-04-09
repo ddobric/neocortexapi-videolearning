@@ -91,7 +91,7 @@ namespace HTMVideoLearning
             //This should be 30 minimum
             int maxNumOfElementsInSequence = videoData[0].GetLongestFramesCountInSet();
 
-            int maxCycles = 1000;
+            int maxCycles = 10;
             int newbornCycle = 0;
 
             //HomeostaticPlasticityController hpa = new(mem, maxNumOfElementsInSequence * 150 * 3, (isStable, numPatterns, actColAvg, seenInputs) =>
@@ -121,8 +121,8 @@ namespace HTMVideoLearning
             // Training SP to get stable. New-born stage.
             //
             ///*
-            //for (int i = 0; i < maxCycles; i++)
-            while (isInStableState == false)
+            for (int i = 0; i < maxCycles; i++)
+            //while (isInStableState == false)
             {
                 newbornCycle++;
 
