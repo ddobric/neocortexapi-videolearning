@@ -48,6 +48,7 @@ There is a TestClass
 - [**NVideo**](https://github.com/ddobric/neocortexapi/blob/SequenceLearning_ToanTruong/Project12_HTMCLAVideoLearning/HTMVideoLearning/VideoLibrary/NVideo.cs):  
 Represent a video, has multiple **NFrame**.  
 Read a video in different frame rate. (only equal/lower framerates are possible)
+(In case new video codec is used for making the predicted video, add the file extension with Four character codec in the CorrespondingFileExtension enumeration class)
 
 - [**NFrame**](https://github.com/ddobric/neocortexapi/blob/SequenceLearning_ToanTruong/Project12_HTMCLAVideoLearning/HTMVideoLearning/VideoLibrary/NFrame.cs):  
 represent a frame, has converted bitarray from the frame pixel reading.

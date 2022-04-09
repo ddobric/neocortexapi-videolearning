@@ -167,7 +167,7 @@ namespace VideoLibrary
             string fileExtension = extension.GetEnumDescription();
             
             //There was a -1 instead of fourcc which works on older framework to bring the drop down menu selection of codec
-            using (VideoWriter videoWriter = new($"{videoOutputPath}"+ fileExtension, fourcc, (int)frameRate, dimension, isColor))
+            using (VideoWriter videoWriter = new(videoOutputPath+ fileExtension, fourcc, (int)frameRate, dimension, isColor))
             {
                 foreach (NFrame frame in bitmapList)
                 {
