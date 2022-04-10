@@ -121,8 +121,8 @@ namespace HTMVideoLearning
             // Training SP to get stable. New-born stage.
             //
             ///*
-            for (int i = 0; i < maxCycles; i++)
-            //while (isInStableState == false)
+            //for (int i = 0; i < maxCycles; i++)
+            while (isInStableState == false)
             {
                 newbornCycle++;
 
