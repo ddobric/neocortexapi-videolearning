@@ -413,7 +413,7 @@ namespace HTMVideoLearning
                 // Create output video
                 NVideo.CreateVideoFromFrames(
                     outputNFrameList,
-                    Path.Combine(Outputdir, $"testNo_{testNo}_Label{Label}_similarity{serie.Similarity}_No of same bit{serie.NumOfSameBits}.mp4"),
+                    Path.Combine(Outputdir, $"testNo_{testNo}_Label{Label}_similarity{serie.Similarity}_No of same bit{serie.NumOfSameBits}"),
                     (int)videoData[0].nVideoList[0].frameRate,
                     new Size((int)videoData[0].nVideoList[0].frameWidth, (int)videoData[0].nVideoList[0].frameHeight),
                     true);
