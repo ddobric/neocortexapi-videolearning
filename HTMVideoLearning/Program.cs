@@ -60,7 +60,7 @@ namespace HTMVideoLearning
         {
             htmConfig.Random = new ThreadSafeRandom(42);
 
-            htmConfig.CellsPerColumn = 30;
+            htmConfig.CellsPerColumn = 40;
             htmConfig.GlobalInhibition = true;
             //htmConfig.LocalAreaDensity = -1;
             htmConfig.NumActiveColumnsPerInhArea = 0.02 * htmConfig.ColumnDimensions[0];

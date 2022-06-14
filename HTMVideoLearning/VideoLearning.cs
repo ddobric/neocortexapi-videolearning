@@ -460,6 +460,7 @@ namespace HTMVideoLearning
 
             // Output folder initiation
             string outputFolder = nameof(VideoLearning.TrainWithFrameKeys) + "_" + GetCurrentTime();
+
             string convertedVideoDir, testOutputFolder;
 
             CreateTemporaryFolders(outputFolder, out convertedVideoDir, out testOutputFolder);
@@ -658,7 +659,7 @@ namespace HTMVideoLearning
                             if (lyrOut.PredictiveCells.Count > 0)
                             {
                                 //var predictedInputValue = cls.GetPredictedInputValue(lyrOut.PredictiveCells.ToArray());
-                                var predictedInputValues = cls.GetPredictedInputValues(lyrOut.PredictiveCells.ToArray(), 3);
+                                var predictedInputValues = cls.GetPredictedInputValues(lyrOut.PredictiveCells.ToArray(), 1);
 
                                 foreach (var item in predictedInputValues)
                                 {
@@ -685,7 +686,7 @@ namespace HTMVideoLearning
                             // The learning may result in saturated accuracy
                             // Unable to learn to higher accuracy, Exit
                             saturatedAccuracyCount += 1;
-                            if (saturatedAccuracyCount >= 10 && lastCycleAccuracy > 80)
+                            if (saturatedAccuracyCount >= 24 && lastCycleAccuracy >= 85)
                             {
                                 List<string> outputLog = new();
                                 MakeDirectoryIfRequired(Path.Combine(outputFolder, "TEST"));
@@ -748,6 +749,21 @@ namespace HTMVideoLearning
                 WriteLineColor("Drag an image as input to recall the learned Video or type (Write Q to quit): ");
                 userInput = Console.ReadLine().Replace("\"", "");
             }
+        }
+
+        private static string GetCurrentTime()
+        {
+            var currentTime = DateTime.Now.ToString();
+
+            var timeWithoutSpace = currentTime.Split();
+
+            var timeWithUnderScore = string.Join("_", timeWithoutSpace);
+
+            var timeWithoutColon = timeWithUnderScore.Replace(':', '-');
+
+            var timeWithoutSlash = timeWithoutColon.Replace('/','-');
+
+            return timeWithoutSlash;
         }
 
         /// <summary>
