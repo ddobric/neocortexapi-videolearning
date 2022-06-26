@@ -751,21 +751,6 @@ namespace HTMVideoLearning
             }
         }
 
-        private static string GetCurrentTime()
-        {
-            var currentTime = DateTime.Now.ToString();
-
-            var timeWithoutSpace = currentTime.Split();
-
-            var timeWithUnderScore = string.Join("_", timeWithoutSpace);
-
-            var timeWithoutColon = timeWithUnderScore.Replace(':', '-');
-
-            var timeWithoutSlash = timeWithoutColon.Replace('/','-');
-
-            return timeWithoutSlash;
-        }
-
         /// <summary>
         /// Current timestamp to know when the program was started 
         /// </summary>
