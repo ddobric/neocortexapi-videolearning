@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Azure.Storage.Queues;
 using Azure.Storage.Blobs;
+using Azure.Data.Tables;
+using Azure.Data.Tables.Models;
 using Azure.Storage.Queues.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
@@ -18,23 +20,21 @@ namespace HTMVideoLearning
         /// <summary>
         /// This is the string to connect to the storage account
         /// </summary>
-        private string queConnectionString { get; set; }
         private string StorageAccountKey { get; set; }
         private string StorageAccountName { get; set; }
-        public CloudTableClient tableClient { get; set; }
+        private string queConnectionString { get; set; }
+        private string tableConnectionString { get; set; }
 
         /// <summary>
         /// Constructor to create the azure account connector
         /// </summary>
         /// <param name="queConnectionString">The string to connect to the que storage</param>
-        public AzureConnector(string StorageAccountKey, string StorageAccountName, string queConnectionString)
+        public AzureConnector(string StorageAccountKey, string StorageAccountName, string queConnectionString, string tableConnectionString)
         {
             this.queConnectionString = queConnectionString; 
             this.StorageAccountKey = StorageAccountKey;
             this.StorageAccountName = StorageAccountName;
-
-            var storageAccount = new CloudStorageAccount(new StorageCredentials(StorageAccountName, StorageAccountKey), true);
-            this.tableClient = storageAccount.CreateCloudTableClient();
+            this.tableConnectionString = tableConnectionString;
         }
 
         /// <summary>
@@ -42,17 +42,33 @@ namespace HTMVideoLearning
         /// </summary>
         /// <param name="queueName"></param>
         /// <returns></returns>
-        public async Task CreateQueue(string queueName)
+        public async Task<QueueClient> CreateQueue(string queueName)
         {
             QueueClient queue = new QueueClient(queConnectionString, queueName);
             await queue.CreateIfNotExistsAsync();
+            Console.WriteLine($"Queue named {queueName} is created.");
+            return queue;
         }
 
-        public static async Task CreateTable(string TableName)
+        public async Task SendQueueMessage(QueueClient queue, string message)
         {
-            var table = tableClient.GetTableReference(TableName);
-            table.CreateIfNotExistsAsync();
-            Console.WriteLine($"Table named {TableName} is created.");
+            await queue.SendMessageAsync(message);
+            Console.WriteLine($"Message \"{message}\" is sent.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns>TableClient object</returns>
+        public async Task<TableClient> CreateTable(string tableName)
+        {
+            var tableServiceClient = new TableServiceClient(tableConnectionString);
+            TableItem table = tableServiceClient.CreateTableIfNotExists(tableName);
+            Console.WriteLine($"Table named {tableName} is created.");
+            var tableClient = tableServiceClient.GetTableClient(tableName);
+            await tableClient.CreateIfNotExistsAsync();
+            return tableClient;
         }
 
         /// <summary>
